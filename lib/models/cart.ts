@@ -1,0 +1,35 @@
+import mongoose, { Schema, models, model } from "mongoose";
+
+const CartItemSchema = new Schema({
+  product: {
+    type: Schema.Types.ObjectId,
+    ref: "Product",
+    required: true,
+  },
+  name: String,
+  price: Number,
+  quantity: {
+    type: Number,
+    required: true,
+    min: 1,
+  },
+  image: String,
+});
+
+const CartSchema = new Schema(
+  {
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    items: [CartItemSchema],
+  },
+  {
+    timestamps: true,
+  }
+);
+
+const Cart = models.Cart || model("Cart", CartSchema);
+
+export default Cart;
